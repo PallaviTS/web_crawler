@@ -1,0 +1,53 @@
+%br
+%br
+.row
+  .col-md-12
+    %button.btn.btn-primary{"data-target" => "#crawl-modal", "data-toggle" => "modal", :type => "button"}
+      Crawl new URL
+    #crawl-modal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "exampleModalLabel", :role => "dialog", :tabindex => "-1"}
+      .modal-dialog{:role => "document"}
+        .modal-content
+          .modal-body
+            %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+              %span{"aria-hidden" => "true"} ×
+            = form_tag sites_crawl_path, method: :post do
+              .col-md-12
+                = label_tag 'URL'
+                = text_field_tag :url, params[:search], class: 'form-control', placeholder: 'http://berghain.de/events/2019-01'
+              .col-md-12
+                = label_tag 'Max URLs'
+                = number_field_tag :max_url, params[:search], class: 'form-control', placeholder: '10'
+              .col-md-12
+                = label_tag 'Interval'
+                = number_field_tag :interval, params[:search], class: 'form-control', placeholder: '2'
+              %button.btn.btn-secondary{"data-dismiss" => "modal", :type => "button"} Close
+              = submit_tag 'Crawl', class: 'btn btn-primary', type: 'submit'
+%hr
+
+.row
+  .col-md-12
+    = form_tag events_path, method: :get do
+      .row
+        .col-md-4
+          = label_tag 'Search'
+          = text_field_tag :search, params[:search], class: 'form-control', placeholder: 'Enter Event title, keyword..'
+        .col-md-2
+          = label_tag 'Websource'
+          = select_tag 'websource', options_for_select(@websources), class: 'form-control'
+        .col-md-2
+          = label_tag 'From Date'
+          = text_field_tag :from_date, params[:date], class: 'form-control'
+        .col-md-2
+          = label_tag 'To Date'
+          = text_field_tag :to_date, params[:date], class: 'form-control'
+        .col-md-2
+          = label_tag ''
+          = submit_tag 'Search', class: 'btn btn-primary btn-block', type: 'submit'
+
+%br          
+.row
+  .col-md-12
+    - @events.each.with_index(1) do |event, i|
+      %p
+        = i
+        = event.body
