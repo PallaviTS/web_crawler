@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  url: MyString
+  max_url: 1
+  interval: 1
+  options: 
+
+two:
+  url: MyString
+  max_url: 1
+  interval: 1
+  options: 
