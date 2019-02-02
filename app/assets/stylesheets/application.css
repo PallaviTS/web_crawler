@@ -24,10 +24,3 @@ form > .row > .col-md-8 {
 form > .row > .col-md-8 > .btn {
     margin-left: 1%;
 }
-.column {
-    float: left;
-    width: 20%;
-    height: 30%;
-    padding: 1%;
-    overflow-wrap: break-word;
-}

@@ -23,13 +23,15 @@
           = submit_tag 'Search', class: 'btn btn-primary btn-block', type: 'submit'
 
 %br          
-.row
-  - @events.each do |event|
-    .column
-      = image_tag event.image, width: '200px', height: '200px'
-      %h3
-        = truncate(event.title, length: 25)
-      %p
-        = "#{event.from_date.to_date}" if event.from_date.present?
-        = "to #{event.to_date.to_date}" if event.to_date.present?
-        = truncate(event.body, length: 50) { link_to "more", event_path(event.id), target: 'blank' }
+  - @events.each_slice(4) do |group_event|
+    .row
+      - group_event.each do |event|
+        .col-sm-3
+          = image_tag event.image, width: '250px', height: '250px'
+          %h3
+            = event.title
+          %p
+            = "#{event.from_date.to_date}" if event.from_date.present?
+            = "to #{event.to_date.to_date}" if event.to_date.present?
+          %p
+            = truncate(event.body, length: 50) { link_to "more", event_path(event.id), target: 'blank' }
