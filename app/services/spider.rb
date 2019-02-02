@@ -8,7 +8,7 @@ class Spider < BaseSpider
       while root.node_name != 'a'
         root = root.parent
       end
-      enqueue(root.attributes['href'].value, :process_articles, { image: img }) if root.attributes['href'].value
+      enqueue(root.attributes['href'].value, :process_articles, { image: img.src }) if root.attributes['href'].value
     end
   end
 
@@ -29,16 +29,14 @@ class Spider < BaseSpider
       body: body,
       from_date: from,
       to_date: to,
-      image: image_full_path(page, data[:image], root.search('h1').text)
+      image: image_full_path(page, data[:image])
     }
     record(data.merge(event))
   end
 
-  def image_full_path(page, image, file_name)
-    file_name = file_name.downcase.gsub(/\W/, '_') 
-    image_url = URI.parse(image.src).scheme ? image.src : "#{page.uri.scheme}://#{page.uri.host}/#{image.src}"
-    image_url = image_url.split('?').first
-    image.fetch.save Rails.root.join('app/assets/images/', file_name)
-    file_name
+  def image_full_path(page, image)
+    # Not able to get this working on HEROKU, hence using site image urls
+    # path = image.fetch.save Rails.root.join('assets/images/', 'file_name')
+    URI.parse(image).scheme ? image : "#{page.uri.scheme}://#{page.uri.host}/#{image}"
   end
 end
