@@ -6,11 +6,10 @@ class EventsController < ApplicationController
                                  allowed_params['websource'],
                                  allowed_params['from_date'],
                                  allowed_params['to_date'] )
-      @websources = Event.all.map(&:websource).uniq
     else
       @events     = Event.all
-      @websources = @events.map(&:websource).uniq
     end
+    @websources = Event.all.map(&:websource).uniq
   end
 
   def show

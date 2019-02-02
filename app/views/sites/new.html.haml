@@ -1,0 +1,21 @@
+%br
+%br
+= form_for @site do |form|
+  .row
+    .col-md-8
+      %ul
+        - @site.errors.each do |attr, msg|
+          %li
+            = "#{attr.to_s} - #{msg}"
+    .col-md-8
+      = label_tag 'URL'
+      = form.text_field :url, class: 'form-control', placeholder: 'http://berghain.de/events/2019-01'
+    .col-md-8
+      = label_tag 'Max URLs'
+      = form.number_field :max_url, class: 'form-control', placeholder: '10'
+    .col-md-8
+      = label_tag 'Interval'
+      = form.number_field :interval, class: 'form-control', placeholder: '2'
+    .col-md-8
+      = form.submit 'Crawl', class: 'btn btn-primary pull-right', type: 'submit'
+      = link_to 'Back', root_path, class: 'btn btn-default pull-right', type: 'button'
