@@ -21,3 +21,13 @@
 form > .col-md-12 {
     margin-bottom: 2%;
 }
+/* Create two equal columns that floats next to each other */
+.column {
+    float: left;
+    width: 20%;
+    height: 30%;
+    padding: 1%;
+    overflow-wrap: break-word;
+}
+
+/* Clear floats after the columns */

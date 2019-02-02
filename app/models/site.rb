@@ -5,7 +5,6 @@ class Site < ApplicationRecord
   def self.crawl(data)
     spider = Spider.new({root: data['url'], handler: :process_index}, {max_url: data['max_url'].to_i, interval: data['interval'].to_i })
     spider.crawl
-    binding.pry
     # Bulk import
     Event.import spider.results.flatten
   end

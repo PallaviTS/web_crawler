@@ -1,4 +1,4 @@
 Rails.application.routes.draw do
-  get 'events', to: 'events#index'
-  post 'sites/crawl', to:  'sites#create'
+  resources :events, only: [:index, :show]
+  post '/sites/crawl', to:  'sites#create'
 end

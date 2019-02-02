@@ -1,0 +1,12 @@
+.row
+  .col-md-12
+    %h1
+      = @event.title
+    %p
+      = "#{@event.from_date.to_date}" if @event.from_date.present?
+      = "to #{@event.to_date.to_date}" if @event.to_date.present?
+    .col-md-4
+      = image_tag @event.image, width: '350px', height: '350px'
+    .col-md-8
+      %p
+        = @event.body

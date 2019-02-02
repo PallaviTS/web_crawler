@@ -46,8 +46,12 @@
 
 %br          
 .row
-  .col-md-12
-    - @events.each.with_index(1) do |event, i|
+  - @events.each do |event|
+    .column
+      = image_tag event.image, width: '200px', height: '200px'
+      %h3
+        = event.title
       %p
-        = i
-        = event.body
+        = "#{event.from_date.to_date}" if event.from_date.present?
+        = "to #{event.to_date.to_date}" if event.to_date.present?
+        = truncate(event.body, length: 50) { link_to "more", event_path(event.id), target: 'blank' }
