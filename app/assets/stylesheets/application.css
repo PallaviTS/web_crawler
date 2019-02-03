@@ -15,8 +15,8 @@
  *= require_tree .
  *= require_self
  */
-.modal-header, .modal-body, .modal-footer {
-    border: none;
+body {
+    margin-top: 2%
 }
 form > .row > .col-md-8 {
     margin-bottom: 1%;

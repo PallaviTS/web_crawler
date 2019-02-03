@@ -24,7 +24,7 @@ class Spider < BaseSpider
       root = root.parent
     end
     body = root.search('h1', 'ul', 'span', 'p', 'pre').map(&:text).join(' ')
-    from, to = body.scan(DATE_REG).map {|d| DateTime.parse(d.join()) }
+    from, to = body.scan(DATE_REG).map {|d| Date.parse(d.join()) }
     event = {
       title: root.search('h1').text,
       websource: page.uri.hostname,
