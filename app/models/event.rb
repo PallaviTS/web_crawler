@@ -1,5 +1,6 @@
 class Event < ApplicationRecord
   after_destroy :remove_image
+  validates_presence_of :title
 
   def self.search(body, websource, from_date, to_date)
     where("#{build_filter_clause(body, websource, from_date, to_date)}")
