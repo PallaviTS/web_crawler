@@ -1,14 +1,16 @@
 class Spider < BaseSpider
   def process_index(page, data = {})
     page.links_with(href: LINK_REG).each do |link|
-      enqueue(link.href, :process_index)
+      enqueue(link.href, :process_index) unless disallowed?(link.href)
     end
     page.images_with(src: IMG_REG).each do |img|
       root = page.xpath("//img[@src='#{img.src}']").first
-      while root.node_name != 'a'
+      while root.node_name != 'a' && root.respond_to?(:parent)
         root = root.parent
       end
-      enqueue(root.attributes['href'].value, :process_articles, { image: img.src }) if root.attributes['href'].value
+      if root.attributes['href'].value && !disallowed?(root.attributes['href'].value)
+        enqueue(root.attributes['href'].value, :process_articles, { image: img.src })
+      end
     end
   end
 
@@ -18,7 +20,7 @@ class Spider < BaseSpider
     # Find the common parent for <h1> and all <p>s.
     root = h1
     return unless root
-    while root.node_name != 'body' and root.search('p').count < 3
+    while root.node_name != 'body' && root.search('p').count < 3
       root = root.parent
     end
     body = root.search('h1', 'ul', 'span', 'p', 'pre').map(&:text).join(' ')

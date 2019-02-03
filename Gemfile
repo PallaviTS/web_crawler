@@ -23,6 +23,8 @@ gem 'mechanize', '2.7.5'
 #Bulk import
 gem 'activerecord-import', '~> 0.19.0'
 
+# Simple HTTP client library
+gem 'faraday', '0.15.4'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'

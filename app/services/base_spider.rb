@@ -10,15 +10,35 @@ class BaseSpider
   def initialize(processor, options = {})
     @processor = processor
 
-    @results  = []
-    @errors   = []
-    @urls     = []
-    @handlers = {}
-
+    @results      = []
+    @errors       = []
+    @urls         = []
+    @handlers     = {}
+    @robotstxt    = nil
+    
     @interval = options.fetch(:interval, REQUEST_INTERVAL)
     @max_urls = options.fetch(:max_urls, MAX_URLS)
-    # Validate URL
-    enqueue(@processor[:root], @processor[:handler])
+
+    if valid?(@processor[:root])
+      fetch_disallowed_paths(@processor[:root])
+      # Check if URL is valid and allowed to scrape
+      enqueue(@processor[:root], @processor[:handler]) unless disallowed?(@processor[:root])
+    end
+  end
+
+  def fetch_disallowed_paths(url)
+    uri = URI.parse(url)
+    response = Faraday.get "#{uri.scheme}://#{uri.host}/robots.txt"
+    @robotstxt = response.body.scan(/Disallow:\ (.*)/ix)
+  end
+  
+  def disallowed?(url)
+    uri = URI.parse(url)
+    @robotstxt.include? uri.path
+  end
+  
+  def valid?(url)
+    Faraday.get(url).status == 200
   end
 
   def enqueue(url, method, data = {})
