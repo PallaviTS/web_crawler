@@ -28,6 +28,7 @@ class Spider < BaseSpider
     event = {
       title: root.search('h1').text,
       websource: page.uri.hostname,
+      source: page.uri.to_s,
       body: body,
       from_date: from,
       to_date: to,

@@ -4,7 +4,7 @@ class Event < ApplicationRecord
 
   def self.search(body, websource, from_date, to_date)
     where("#{build_filter_clause(body, websource, from_date, to_date)}")
-    .select(:id, :title, :body, :websource, :from_date, :to_date, :image)
+    .select(:id, :title, :body, :websource, :from_date, :to_date, :image, :source)
   end
 
   def self.build_filter_clause(body, websource, from_date, to_date)

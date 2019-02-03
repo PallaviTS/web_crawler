@@ -10,3 +10,5 @@
     .col-md-8
       %p
         = @event.body
+      %p
+        = link_to 'Source', @event.source, target: '_blank'
