@@ -12,7 +12,7 @@ class SitesController < ApplicationController
       else
         flash[:danger] = "Not able to crawl the site, errors: #{data[:errors].first[:error]}"
       end
-      redirect_to events_path
+      redirect_to root_path
     else
       render :new
     end

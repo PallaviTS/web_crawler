@@ -1,4 +1,5 @@
 class BaseSpider
+  # Constants and REGEXs needed
   REQUEST_INTERVAL = 1
   MAX_URLS = 1000
   DATE_REG = /(\d{4}) (\d{2}) (\d{2}) (\d{4})|(\d{2})\/(\d{2})\/(\d{2})/
@@ -27,6 +28,7 @@ class BaseSpider
   end
 
   def fetch_disallowed_paths(url)
+    # Hanlde url/robots.txt
     uri = URI.parse(url)
     response = Faraday.get "#{uri.scheme}://#{uri.host}/robots.txt"
     @robotstxt = response.body.scan(/Disallow:\ (.*)/ix)
@@ -38,6 +40,7 @@ class BaseSpider
   end
   
   def valid?(url)
+    # Check if url is up and running
     Faraday.get(url).status == 200
   end
 
@@ -48,6 +51,7 @@ class BaseSpider
   end
 
   def record(data = {})
+    # Push data to [], save as bulk import
     @results << data
   end
   

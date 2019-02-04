@@ -1,6 +1,7 @@
 class EventsController < ApplicationController
 
   def index
+    # Query for attrs passed, if not fetch all events
     if allowed_params.present?
       @events     = Event.search(allowed_params['search'],
                                  allowed_params['websource'],
