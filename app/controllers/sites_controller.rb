@@ -8,9 +8,9 @@ class SitesController < ApplicationController
     if @site.save
       data = Site.crawl(site_params.merge({site_id: @site.id}))
       if data[:results].length > 0
-        flash[:notice] = "Successfully crawled"
+        flash[:success] = "Successfully crawled"
       else
-        flash[:error] = "Not able to crawl the site, errors: #{data[:errors]}"
+        flash[:danger] = "Not able to crawl the site, errors: #{data[:errors].first[:error]}"
       end
       redirect_to events_path
     else

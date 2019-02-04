@@ -11,6 +11,8 @@
     .container
       .py-5
         - flash.each do |key, value|
-          %div{:class => "alert alert-#{key}"}
-            = value
+          %div{:class => "alert alert-#{key} alert-dismissible"}
+            %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
+            %strong
+              = value
         = yield

@@ -1,10 +1,11 @@
 = form_for @site do |form|
   .row
     .col-md-8
-      %ul
-        - @site.errors.each do |attr, msg|
-          %li
-            = "#{attr.to_s} - #{msg}"
+      - @site.errors.each do |attr, msg|
+        %div{:class => "alert alert-danger alert-dismissible"}
+          %a.close{"aria-label" => "close", "data-dismiss" => "alert", :href => "#"} ×
+          %strong
+            = "#{attr.to_s.upcase} - #{msg.capitalize}"
     .col-md-8
       = label_tag 'URL'
       = form.text_field :url, class: 'form-control', placeholder: 'http://berghain.de/events/2019-01'
