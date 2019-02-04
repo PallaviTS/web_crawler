@@ -15,6 +15,6 @@
     .col-md-8
       = label_tag 'Interval'
       = form.number_field :interval, class: 'form-control', placeholder: '2'
-    .col-md-8
+    .col-md-8.hide
       = form.submit 'Crawl', class: 'btn btn-success pull-right', type: 'submit'
       = link_to 'Back', root_path, class: 'btn btn-default pull-right', type: 'button'
