@@ -13,10 +13,10 @@ class Event < ApplicationRecord
     filter_clause    = ' true = true '
     filter_clause   += " and websource = '#{websource}'" if websource.present?
     filter_clause   += " and body ilike '%#{body}%' " if body.present?
-    filter_clause   += " and (from_date BETWEEN  '#{from_date}' AND '#{to_date}' or 
+    filter_clause   += " and (from_date BETWEEN  '#{from_date}' AND '#{to_date}' and 
                          to_date BETWEEN '#{from_date}' AND '#{to_date}')" if from_date.present? && to_date.present?
-    filter_clause   += " and from_date = '#{from_date}'" if from_date.present?
-    filter_clause   += " and to_date = '#{to_date}'" if to_date.present?
+    filter_clause   += " and from_date >= '#{from_date}'" if from_date.present?
+    filter_clause   += " and to_date <= '#{to_date}'" if to_date.present?
     filter_clause
   end
 

@@ -20,4 +20,8 @@
           = label_tag ''
           = submit_tag 'Search', class: 'btn btn-primary btn-block', type: 'submit'
 %br
-= render partial: 'events_list', locals: { events: @events }
+- if @events.present?
+  = render partial: 'events_list', locals: { events: @events }
+- else
+  .jumbotron.text-center
+    %h1.display-4 No results

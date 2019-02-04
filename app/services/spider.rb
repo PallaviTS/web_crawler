@@ -24,13 +24,20 @@ class Spider < BaseSpider
     
     # Find the common parent for <h1> and all <p>s.
     root = h1
-    while root.node_name != 'body' && root.search('p').count < 3
+    while root.node_name != 'body' && root.search('p').count < 5
       root = root.parent
     end
 
     # Fetch useful tags and scan for dates
-    body = root.search('h1', 'ul', 'span', 'p', 'pre').map(&:text).join(' ')
-    from, to = body.scan(DATE_REG).map {|d| Date.parse(d.join()) }
+    body = root.search('h1', 'nav', 'ul', 'span', 'p', 'pre').map(&:text).join(' ')
+    from, to = nil
+    ['%d%m%y', '%Y%m%d'].each do |format|
+      begin
+        from, to = body.scan(DATE_REG).map {|d| DateTime.strptime(d.join(), format) }.uniq
+      rescue
+        next
+      end
+    end
 
     # Event saved as hash
     event = {
