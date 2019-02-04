@@ -1,35 +1,48 @@
 require 'rails_helper'
 
 describe Event do
-  subject { described_class.new }
+  let(:event) { create(:event) }
 
   it "is valid with valid attributes" do
-    subject.title = "Anything"
-    subject.body = "Anything"
-    subject.from_date = DateTime.now
-    subject.to_date = DateTime.now + 1.week
-    expect(subject).to be_valid
-  end
-
-  it "is not valid without a title" do
-    expect(subject).to_not be_valid
+    event.title = "Anything"
+    event.body = "Anything"
+    event.image = "image src url"
+    event.websource = "some site"
+    event.source = "some source"
+    event.from_date = DateTime.now
+    event.to_date = DateTime.now + 1.week
+    expect(event).to be_valid
   end
 
   it "is not valid without a body" do
-    subject.title = "Anything"
-    expect(subject).to_not be_valid
+    event.body = nil
+    expect(event).to_not be_valid
   end
 
-  it "is not valid without a from_date" do
-    subject.title = "Anything"
-    subject.body = "Lorem ipsum dolor sit amet"
-    expect(subject).to_not be_valid
+  it "is not valid without a websource" do
+    event.websource = nil
+    expect(event).to_not be_valid
   end
 
-  it "is not valid without a to_date" do
-    subject.title = "Anything"
-    subject.body = "Lorem ipsum dolor sit amet"
-    subject.from_date = DateTime.now
-    expect(subject).to_not be_valid
+  it "is not valid without a image" do
+    event.image = nil
+    expect(event).to_not be_valid
+  end
+
+  it "is not valid without a source" do
+    event.source = nil
+    expect(event).to_not be_valid
+  end
+  
+  it "is not valid without a site" do
+    event.site = nil
+    expect(event).to_not be_valid
+  end
+
+  context '#search' do
+    it "return search results" do
+      events = create_list(:event, 5)
+      expect(Event.search('Duis', nil, nil, nil).length).to eq(5)
+    end
   end
 end

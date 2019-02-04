@@ -8,9 +8,16 @@ describe EventsController do
     end
 
     it 'populates an array of events' do
-      event = create(:event)
+      events = create_list(:event, 5)
       get :index
-      expect(assigns(:events)).to eq([event])
+      expect(assigns(:events)).to eq(events)
+    end
+
+    it 'populates an array of websource' do
+      events = create_list(:event, 5)
+      websources = events.map(&:websource).uniq
+      get :index
+      expect(assigns(:websources)).to eq(websources)
     end
 
     it 'renders the index template' do
@@ -26,13 +33,13 @@ describe EventsController do
       expect(response.status).to eq(200)
     end
 
-    it 'populates an array of events' do
+    it 'assigns event' do
       event = create(:event) 
       get :show, params: { id: event } 
       expect(assigns(:event)).to eq(event)
     end
 
-    it 'renders the index template' do
+    it 'renders the show template' do
       event = create(:event) 
       get :show, params: { id: event } 
       expect(response).to render_template('show')
