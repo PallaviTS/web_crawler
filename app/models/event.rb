@@ -1,4 +1,5 @@
 class Event < ApplicationRecord
+  belongs_to :site
   after_destroy :remove_image
   validates_presence_of :title
 

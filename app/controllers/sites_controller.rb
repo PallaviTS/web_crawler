@@ -6,7 +6,7 @@ class SitesController < ApplicationController
   def create
     @site = Site.create(site_params)
     if @site.save
-      data = Site.crawl(site_params)
+      data = Site.crawl(site_params.merge({site_id: @site.id}))
       if data[:results].length > 0
         flash[:notice] = "Successfully crawled"
       else

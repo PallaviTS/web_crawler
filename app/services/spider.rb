@@ -1,7 +1,7 @@
 class Spider < BaseSpider
   def process_index(page, data = {})
     page.links_with(href: LINK_REG).each do |link|
-      enqueue(link.href, :process_index) unless disallowed?(link.href)
+      enqueue(link.href, :process_index, data) unless disallowed?(link.href)
     end
     page.images_with(src: IMG_REG).each do |img|
       root = page.xpath("//img[@src='#{img.src}']").first
@@ -9,7 +9,7 @@ class Spider < BaseSpider
         root = root.parent
       end
       if root.attributes['href'].value && !disallowed?(root.attributes['href'].value)
-        enqueue(root.attributes['href'].value, :process_articles, { image: img.src })
+        enqueue(root.attributes['href'].value, :process_articles, data.merge({ image: img.src }))
       end
     end
   end
@@ -32,7 +32,8 @@ class Spider < BaseSpider
       body: body,
       from_date: from,
       to_date: to,
-      image: image_full_path(page, data[:image])
+      image: image_full_path(page, data[:image]),
+      site_id: data[:site_id]
     }
     record(data.merge(event))
   end
