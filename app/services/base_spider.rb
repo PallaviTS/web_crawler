@@ -16,9 +16,12 @@ class BaseSpider
     @urls         = []
     @handlers     = {}
     @robotstxt    = nil
-    
+
     @interval = options.fetch(:interval, REQUEST_INTERVAL)
     @max_urls = options.fetch(:max_urls, MAX_URLS)
+    
+    # Handle redirect URL
+    @processor[:root] = redirected_url(@processor[:root])
 
     if valid?(@processor[:root])
       fetch_disallowed_paths(@processor[:root])
@@ -27,6 +30,11 @@ class BaseSpider
     end
   end
 
+  def redirected_url(url)
+    page = agent.get url
+    page.code[/30[12]/] ? page.header['location'] : url
+  end
+    
   def fetch_disallowed_paths(url)
     # Hanlde url/robots.txt
     uri = URI.parse(url)
@@ -83,5 +91,7 @@ class BaseSpider
 
   def agent
     @agent ||= Mechanize.new
+    @agent.redirect_ok = false
+    @agent
   end
 end

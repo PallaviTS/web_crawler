@@ -2,7 +2,7 @@ class Spider < BaseSpider
   def process_index(page, data = {})
     # Traverse all page links e.g /?page=1, /?events=1
     page.links_with(href: LINK_REG).each do |link|
-      enqueue(link.href, :process_index, data) unless disallowed?(link.href)
+      enqueue(redirected_url(link.href), :process_index, data) unless disallowed?(link.href)
     end
     
     # Starting with img tag, to get to article's page
@@ -11,8 +11,9 @@ class Spider < BaseSpider
       while root.node_name != 'a' && root.respond_to?(:parent)
         root = root.parent
       end
-      if root.attributes['href'].value && !disallowed?(root.attributes['href'].value)
-        enqueue(root.attributes['href'].value, :process_articles, data.merge({ image: img.src }))
+      root_link = root.attributes['href'].value
+      if root_link && !disallowed?(root_link)
+        enqueue(redirected_url(root_link), :process_articles, data.merge({ image: img.src }))
       end
     end
   end
