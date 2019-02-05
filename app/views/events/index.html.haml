@@ -7,7 +7,7 @@
           = text_field_tag :search, params[:search], class: 'form-control', placeholder: 'Enter Event title, keyword..'
         .col-md-2
           = label_tag 'Websource'
-          = select_tag 'websource', options_for_select(@websources, selected: params[:websource]), include_blank: "All", class: 'form-control'
+          = select_tag :websource, options_for_select(@websources, selected: params[:websource]), include_blank: "All", class: 'form-control'
         .col-md-2
           = label_tag 'From Date'
           = text_field_tag :from_date, params[:from_date], class: 'form-control'

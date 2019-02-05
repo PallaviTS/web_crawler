@@ -2,7 +2,9 @@ class Spider < BaseSpider
   def process_index(page, data = {})
     # Traverse all page links e.g /?page=1, /?events=1
     page.links_with(href: LINK_REG).each do |link|
-      enqueue(redirected_url(link.href), :process_index, data) unless disallowed?(link.href)
+      unless disallowed?(link.href)
+        enqueue(redirected_url(link.href), :process_index, data)
+      end
     end
     
     # Starting with img tag, to get to article's page
@@ -34,7 +36,7 @@ class Spider < BaseSpider
     from, to = nil
     ['%d%m%y', '%Y%m%d'].each do |format|
       begin
-        from, to = body.scan(DATE_REG).map {|d| DateTime.strptime(d.join(), format) }.uniq
+        from, to = body.scan(DATE_REG).map { |d| DateTime.strptime(d.join(), format) }.uniq
       rescue
         next
       end

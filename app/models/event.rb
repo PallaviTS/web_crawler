@@ -9,10 +9,10 @@ class Event < ApplicationRecord
     .select(:id, :title, :body, :websource, :from_date, :to_date, :image, :source)
   end
 
-  def self.build_filter_clause(body, websource, from_date, to_date)
+  def self.build_filter_clause(title, websource, from_date, to_date)
     filter_clause    = ' true = true '
     filter_clause   += " and websource = '#{websource}'" if websource.present?
-    filter_clause   += " and body ilike '%#{body}%' " if body.present?
+    filter_clause   += " and title ilike '%#{title}%' " if title.present?
     filter_clause   += " and (from_date BETWEEN  '#{from_date}' AND '#{to_date}' and 
                          to_date BETWEEN '#{from_date}' AND '#{to_date}')" if from_date.present? && to_date.present?
     filter_clause   += " and from_date >= '#{from_date}'" if from_date.present?

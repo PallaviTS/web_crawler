@@ -26,7 +26,9 @@ class BaseSpider
     if valid?(@processor[:root])
       fetch_disallowed_paths(@processor[:root])
       # Check if URL is valid and allowed to scrape
-      enqueue(@processor[:root], @processor[:handler], { site_id: options.fetch(:site_id) }) unless disallowed?(@processor[:root])
+      unless disallowed?(@processor[:root])
+        enqueue(@processor[:root], @processor[:handler], { site_id: options.fetch(:site_id) })
+      end
     end
   end
 
