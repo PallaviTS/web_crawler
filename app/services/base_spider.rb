@@ -10,7 +10,7 @@ class BaseSpider
 
   def initialize(processor, options = {})
     @processor = processor
-
+    
     @results      = []
     @errors       = []
     @urls         = []

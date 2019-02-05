@@ -14,6 +14,11 @@ describe Event do
     expect(event).to be_valid
   end
 
+  it "is not valid without a title" do
+    event.title = nil
+    expect(event).to_not be_valid
+  end
+
   it "is not valid without a body" do
     event.body = nil
     expect(event).to_not be_valid
@@ -42,7 +47,7 @@ describe Event do
   context '#search' do
     it "return search results" do
       events = create_list(:event, 5)
-      expect(Event.search('Duis', nil, nil, nil).length).to eq(5)
+      expect(Event.search('Euismod', nil, nil, nil).length).to eq(5)
     end
   end
 end

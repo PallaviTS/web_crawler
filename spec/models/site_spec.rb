@@ -20,6 +20,16 @@ describe Site do
     expect(site).to_not be_valid
   end
 
+  it "is not valid with negative max_url" do
+    site.max_url = -100
+    expect(site).to_not be_valid
+  end
+
+  it "is not valid with negative interval" do
+    site.interval = -1
+    expect(site).to_not be_valid
+  end
+
   context '#crawl' do
     it "return results" do
       allow(Site).to receive(:crawl).and_return({ results: [], errors: [] })

@@ -1,7 +1,7 @@
 class Event < ApplicationRecord
   belongs_to :site
   # after_destroy :remove_image
-  validates_presence_of :body, :websource, :image, :source
+  validates_presence_of :title, :body, :websource, :image, :source
 
   def self.search(body, websource, from_date, to_date)
     # Build the filter clause based on attrs avaliable

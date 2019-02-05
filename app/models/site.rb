@@ -1,8 +1,12 @@
 class Site < ApplicationRecord
   # Using delete_all, to avoid n+1 query, no callbacks
   has_many :events, dependent: :delete_all
+  
   validates_presence_of :url
   validates_format_of :url, :with => /\A(http|https):\/\/(.*)\z/ix, message: 'Not Valid URL'
+  validates :interval, numericality: { only_integer: true, greater_than: 0 }, allow_blank: true
+  validates :max_url, numericality: { only_integer: true, greater_than: 0 }, allow_blank: true
+
   before_create :destroy_if_exists
 
   def self.crawl(data)
