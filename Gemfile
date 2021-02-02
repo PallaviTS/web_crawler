@@ -18,7 +18,7 @@ gem 'jquery-rails', ' 4.3.3'
 gem 'jquery-ui-rails', '6.0.1'
 
 #Use Mechanize for crawling
-gem 'mechanize', '2.7.5'
+gem 'mechanize', '2.7.7'
 
 #Bulk import
 gem 'activerecord-import', '~> 0.19.0'
